@@ -46,46 +46,36 @@ class Piece:
         return f"Team: {self.team}, Power: {self.power}"
 
 
-
 class Board:
-    # Class variables representing the default number of rows and columns on the board
     rows = 8
     columns = 8
 
     def __init__(self):
-        # Instance variable to store the state matrix of the board
         self.state = None
-        # Initialize the state matrix with zeros
         self.createState()
 
     def createState(self):
-        # Initialize the state matrix with zeros for each cell (row x column)
         self.state = [[0] * self.columns for _ in range(self.rows)]
 
     def printState(self):
-        # Print the matrix with row labels
+        # Print the matrix with row numbers
         for i, row in enumerate(self.state):
-            # Convert row index to letter ('A' for 0, 'B' for 1, etc.)
-            row_label = chr(ord('A') + i)
-            # Print the row label and the elements of the row separated by space
-            print(f"{row_label} {' '.join(map(str, row))}")
-
-        # Print column numbers aligned with columns
-        column_numbers = list(map(str, range(1, self.columns + 1)))
-        column_labels = " ".join(column_numbers)
-        # Print column numbers with a space at the beginning for alignment
+            # Print row number
+            print(f"{i + 1}", end=" ")
+            # Print the elements of the row separated by space
+            print(" ".join(map(str, row)))
+        
+        # Print column letters aligned with columns
+        column_letters = [chr(ord('A') + i) for i in range(self.columns)]
+        column_labels = " ".join(column_letters)
         print("  " + column_labels)
 
     def __str__(self):
-        # String representation of the Board object, including the number of rows, columns, and the board state
         return f"Board: {self.rows} rows, {self.columns} columns\nState:\n{self.printState()}"
 
 # Example usage:
 if __name__ == "__main__":
-    # Creating an instance of the Board class
     game_board = Board()
-
-    # Printing the state of the board
     print("Board State:")
     game_board.printState()
 
