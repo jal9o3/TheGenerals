@@ -48,7 +48,7 @@ class Piece:
 
 class Board:
     rows = 8
-    columns = 8
+    columns = 9
 
     def __init__(self):
         self.state = None
@@ -63,8 +63,18 @@ class Board:
             # Print row number
             print(f"{i + 1}", end=" ")
             # Print the elements of the row separated by space
-            print(" ".join(map(str, row)))
-        
+            if i > 0 and i < self.rows - 1:
+                print(" ".join(map(str, row)))
+            elif i == 0 or i == self.rows - 1:
+                print(" ".join(map(str, row)), end="")
+
+            # Print "BLUE" after the first row
+            if i == 0:
+                print("  BLUE")
+
+        # Print "RED" after the last row
+        print("  RED")
+
         # Print column letters aligned with columns
         column_letters = [chr(ord('A') + i) for i in range(self.columns)]
         column_labels = " ".join(column_letters)
