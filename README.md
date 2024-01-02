@@ -1,0 +1,1 @@
+Game of the Generals aka Salpakan from the terminal, written in Python.
