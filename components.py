@@ -47,14 +47,18 @@ class Piece:
 
 
 class Board:
+    # Class variables representing the default number of rows and columns on the board
     rows = 8
     columns = 9
 
     def __init__(self):
+        # Instance variable to store the state matrix of the board
         self.state = None
+        # Initialize the state matrix with zeros
         self.createState()
 
     def createState(self):
+        # Initialize the state matrix with zeros for each cell (row x column)
         self.state = [[0] * self.columns for _ in range(self.rows)]
 
     def printState(self):
@@ -62,11 +66,14 @@ class Board:
         for i, row in enumerate(self.state):
             # Print row number
             print(f"{i + 1}", end=" ")
-            # Print the elements of the row separated by space
-            if i > 0 and i < self.rows - 1:
-                print(" ".join(map(str, row)))
-            elif i == 0 or i == self.rows - 1:
+            
+            # Check if it is the first or last row
+            if i == 0 or i == self.rows - 1:
+                # Print the elements of the row without a newline at the end
                 print(" ".join(map(str, row)), end="")
+            else:
+                # Print the elements of the row with a newline at the end
+                print(" ".join(map(str, row)))
 
             # Print "BLUE" after the first row
             if i == 0:
