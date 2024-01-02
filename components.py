@@ -76,6 +76,25 @@ class Board:
                 col = 0
                 row += 1
 
+    def redFormation(self, formation):
+        row = self.rows - 1
+        col = self.columns - 1
+
+        for power in formation:
+            if power != -1:
+                # Instantiate a new Piece object with 'red' team and the given power
+                piece = Piece()
+                piece.set_team('RED')
+                piece.set_power(power)
+                # Assign the piece to the current spot in the matrix
+                self.state[row][col] = piece
+
+            # Move to the next spot in the matrix
+            col -= 1
+            if col < 0:
+                col = self.columns - 1
+                row -= 1
+
     def printState(self):
         # Print the matrix with row numbers
         for i, row in enumerate(self.state):
@@ -109,6 +128,7 @@ class Board:
 if __name__ == "__main__":
     game_board = Board()
     print("Board State:")
-    game_board.blueFormation([1, 2, 3, 4, 5, 6])
+    game_board.blueFormation([-1, 1, 2, -1, -1, 3, -1, 4, 5, 6])
+    game_board.redFormation([-1, 1, 2, -1, -1, 3, -1, 4, 5, 6])
     game_board.printState()
 
