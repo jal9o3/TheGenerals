@@ -1,6 +1,6 @@
 class Piece:
     # Class variable representing the maximum allowed power for any piece
-    MAX_POWER = 14
+    MAX_POWER = 5
 
     def __init__(self):
         # Instance variables to store the team and power of the piece
@@ -44,8 +44,8 @@ class Piece:
 
 class Board:
     # Class variables representing the default number of rows and columns on the board
-    rows = 8
-    columns = 9
+    rows = 5
+    columns = 5
 
     def __init__(self):
         # Instance variable to store the state matrix of the board
@@ -128,7 +128,7 @@ class Board:
 if __name__ == "__main__":
     game_board = Board()
     print("Board State:")
-    game_board.blueFormation([-1, 1, 2, -1, -1, 3, -1, 4, 5, 6])
-    game_board.redFormation([-1, 1, 2, -1, -1, 3, -1, 4, 5, 6])
+    game_board.blueFormation([-1, 0, 4, 5, -1, -1, 2, 1, 1, -1])
+    game_board.redFormation([5, -1, -1, -1, 0, 3, 1, -1, 4, 2])
     game_board.printState()
 
