@@ -150,12 +150,34 @@ class Board:
         if abs(destination_row - start_row) + abs(destination_col - start_col) != 1:
             raise ValueError("Invalid move. Only one square forward, backward, left, or right moves are allowed.")
 
-        # Perform the move by updating the state matrix
-        self.state[destination_row][destination_col] = self.state[start_row][start_col]
-        self.state[start_row][start_col] = 0  # Clear the starting position
+        if isinstance(self.state[start_row][start_col], Piece) and isinstance(self.state[destination_row][destination_col], Piece):
+            if self.state[start_row][start_col].get_team() != self.state[destination_row][destination_col].get_team():
+                # Check the power attributes of the pieces
+                start_power = self.state[start_row][start_col].get_power()
+                destination_power = self.state[destination_row][destination_col].get_power()
+
+                if start_power > destination_power:
+                    # Move the piece in the starting square to the destination square
+                    self.state[destination_row][destination_col] = self.state[start_row][start_col]
+                    self.state[start_row][start_col] = 0  # Clear the starting position
+                elif start_power < destination_power:
+                    # Remove the piece in the starting square from the board
+                    self.remove(start_row, start_col)
+                else:
+                    # Remove both pieces from the board in case of a tie
+                    self.remove(start_row, start_col)
+                    self.remove(destination_row, destination_col)
+        else:
+             # Perform the move by updating the state matrix
+            self.state[destination_row][destination_col] = self.state[start_row][start_col]
+            self.state[start_row][start_col] = 0  # Clear the starting position
 
         # Switch the turn to the other team
         self.switch_turn()
+
+    def remove(self, row, col):
+        # Remove the piece at the specified position from the board
+        self.state[row][col] = 0
 
     def isValidPosition(self, position):
         # Checks if the provided position has the correct format "<letter><digit>"
@@ -212,5 +234,13 @@ if __name__ == "__main__":
     game_board.move('D2', 'E2')
     game_board.printState()
     game_board.move('E4', 'E3')
+    game_board.printState()
+    game_board.move('E2', 'E3')
+    game_board.printState()
+    game_board.move('D4', 'D3')
+    game_board.printState()
+    game_board.move('C2', 'D2')
+    game_board.printState()
+    game_board.move('D3', 'D2')
     game_board.printState()
 
