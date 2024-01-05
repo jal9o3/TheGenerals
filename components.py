@@ -54,6 +54,9 @@ class Board:
         self.createState()
         # Initialize the turn attribute to an empty string
         self.turn = ''
+        # Initialize the graveyards of both teams
+        self.blueGraveyard = []
+        self.redGraveyard = []
 
     def createState(self):
         # Initialize the state matrix with zeros for each cell (row x column)
@@ -138,6 +141,15 @@ class Board:
         if self.state[start_row][start_col].get_team() != self.get_turn():
             raise ValueError("Invalid move. The piece at the starting position does not belong to the current turn.")
 
+        # Validate that the destination does not contain a piece from the same team
+        if isinstance(self.state[destination_row][destination_col], Piece) and \
+           self.state[destination_row][destination_col].get_team() == self.get_turn():
+            raise ValueError("Invalid move. The destination contains a piece from the same team.")
+
+        # Check if the move is one square forward, backward, left, or right
+        if abs(destination_row - start_row) + abs(destination_col - start_col) != 1:
+            raise ValueError("Invalid move. Only one square forward, backward, left, or right moves are allowed.")
+
         # Perform the move by updating the state matrix
         self.state[destination_row][destination_col] = self.state[start_row][start_col]
         self.state[start_row][start_col] = 0  # Clear the starting position
@@ -195,6 +207,8 @@ if __name__ == "__main__":
     game_board.set_turn('BLUE')
     game_board.printState()
     
+    # game_board.move('D2', 'C2') # attempt to challenge allied piece
+    # game_board.move('C2', 'B3') # attempt to move diagonally
     game_board.move('D2', 'E2')
     game_board.printState()
     game_board.move('E4', 'E3')
