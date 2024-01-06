@@ -147,11 +147,12 @@ class Board:
         start_power = self.state[start_row][start_col].get_power()
         destination_power = self.state[destination_row][destination_col].get_power()
 
-        if start_power > destination_power:
+        if (start_power > destination_power) or (start_power == 1 and destination_power == Piece.MAX_POWER) \
+            or (start_power == 0 and destination_power == 0):
             # Move the piece in the starting square to the destination square
             self.state[destination_row][destination_col] = self.state[start_row][start_col]
             self.state[start_row][start_col] = 0  # Clear the starting position
-        elif start_power < destination_power:
+        elif (start_power < destination_power) or (start_power == Piece.MAX_POWER and destination_power == 1):
             # Remove the piece in the starting square from the board
             self.remove(start_row, start_col)
         else:
@@ -231,8 +232,8 @@ class Board:
 if __name__ == "__main__":
     game_board = Board()
     print("Board State:")
-    game_board.blueFormation([-1, 0, 4, 5, -1, -1, 2, 1, 1, -1])
-    game_board.redFormation([5, -1, -1, -1, 0, 3, 1, -1, 4, 2])
+    game_board.blueFormation([3, 0, 4, 5, -1, -1, 2, 1, 1, -1])
+    game_board.redFormation([5, 1, -1, -1, 0, 3, 1, -1, 4, 2])
     game_board.set_turn('BLUE')
     game_board.printState()
     
@@ -250,4 +251,25 @@ if __name__ == "__main__":
     game_board.printState()
     game_board.move('D3', 'D2')
     game_board.printState()
+    game_board.move('D1', 'D2')
+    game_board.printState()
+    game_board.move('D5', 'D4')
+    game_board.printState()
+    game_board.move('D2', 'D3')
+    game_board.printState()
+    game_board.move('D4', 'D3')
+    game_board.printState()
+    game_board.move('C1', 'C2')
+    game_board.printState()
+    game_board.move('D3', 'D2')
+    game_board.printState()
+    game_board.move('C2', 'D2')
+    game_board.printState()
+
+    '''
+        d1 d2
+        d5 d4
+        d2 d3
+        d4 d3
+    '''
 
