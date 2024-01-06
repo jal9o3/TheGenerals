@@ -128,27 +128,7 @@ class Board:
         start_row = int(start[1]) - 1
         destination_row = int(destination[1]) - 1
 
-        # Validate that the indices are within the board dimensions
-        if not (0 <= start_row < self.rows) or not (0 <= start_col < self.columns) or \
-           not (0 <= destination_row < self.rows) or not (0 <= destination_col < self.columns):
-            raise ValueError("Invalid position. Position out of bounds.")
-
-        # Validate that there is a piece at the starting position
-        if not isinstance(self.state[start_row][start_col], Piece):
-            raise ValueError("No piece at the starting position.")
-
-        # Validate that the piece at the starting position belongs to the current turn
-        if self.state[start_row][start_col].get_team() != self.get_turn():
-            raise ValueError("Invalid move. The piece at the starting position does not belong to the current turn.")
-
-        # Validate that the destination does not contain a piece from the same team
-        if isinstance(self.state[destination_row][destination_col], Piece) and \
-           self.state[destination_row][destination_col].get_team() == self.get_turn():
-            raise ValueError("Invalid move. The destination contains a piece from the same team.")
-
-        # Check if the move is one square forward, backward, left, or right
-        if abs(destination_row - start_row) + abs(destination_col - start_col) != 1:
-            raise ValueError("Invalid move. Only one square forward, backward, left, or right moves are allowed.")
+        self.check_move(start_row, start_col, destination_row, destination_col)
 
         if isinstance(self.state[start_row][start_col], Piece) and isinstance(self.state[destination_row][destination_col], Piece):
             if self.state[start_row][start_col].get_team() != self.state[destination_row][destination_col].get_team():
@@ -174,6 +154,28 @@ class Board:
 
         # Switch the turn to the other team
         self.switch_turn()
+    def check_move(self, start_row, start_col, destination_row, destination_col):
+        # Validate that the indices are within the board dimensions
+        if not (0 <= start_row < self.rows) or not (0 <= start_col < self.columns) or \
+           not (0 <= destination_row < self.rows) or not (0 <= destination_col < self.columns):
+            raise ValueError("Invalid position. Position out of bounds.")
+
+        # Validate that there is a piece at the starting position
+        if not isinstance(self.state[start_row][start_col], Piece):
+            raise ValueError("No piece at the starting position.")
+
+        # Validate that the piece at the starting position belongs to the current turn
+        if self.state[start_row][start_col].get_team() != self.get_turn():
+            raise ValueError("Invalid move. The piece at the starting position does not belong to the current turn.")
+
+        # Validate that the destination does not contain a piece from the same team
+        if isinstance(self.state[destination_row][destination_col], Piece) and \
+           self.state[destination_row][destination_col].get_team() == self.get_turn():
+            raise ValueError("Invalid move. The destination contains a piece from the same team.")
+
+        # Check if the move is one square forward, backward, left, or right
+        if abs(destination_row - start_row) + abs(destination_col - start_col) != 1:
+            raise ValueError("Invalid move. Only one square forward, backward, left, or right moves are allowed.")
 
     def remove(self, row, col):
         # Remove the piece at the specified position from the board
