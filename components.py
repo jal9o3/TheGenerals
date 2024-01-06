@@ -149,6 +149,8 @@ class Board:
 
         if (start_power > destination_power) or (start_power == 1 and destination_power == Piece.MAX_POWER) \
             or (start_power == 0 and destination_power == 0):
+            # Remove the piece in the destination square, placing it in the graveyard
+            self.remove(destination_row, destination_col)
             # Move the piece in the starting square to the destination square
             self.state[destination_row][destination_col] = self.state[start_row][start_col]
             self.state[start_row][start_col] = 0  # Clear the starting position
@@ -159,6 +161,15 @@ class Board:
             # Remove both pieces from the board in case of a tie
             self.remove(start_row, start_col)
             self.remove(destination_row, destination_col)
+
+    def remove(self, row, col):
+        # Add piece to the team's graveyard
+        if self.state[row][col].get_team() == "BLUE":
+            self.blueGraveyard.append(self.state[row][col].get_power())
+        else:
+            self.redGraveyard.append(self.state[row][col].get_power())
+        # Remove the piece at the specified position from the board
+        self.state[row][col] = 0
 
     def check_move(self, start_row, start_col, destination_row, destination_col):
         # Validate that the indices are within the board dimensions
@@ -183,10 +194,6 @@ class Board:
         if abs(destination_row - start_row) + abs(destination_col - start_col) != 1:
             raise ValueError("Invalid move. Only one square forward, backward, left, or right moves are allowed.")
 
-    def remove(self, row, col):
-        # Remove the piece at the specified position from the board
-        self.state[row][col] = 0
-
     def isValidPosition(self, position):
         # Checks if the provided position has the correct format "<letter><digit>"
         if len(position) == 2 and position[0].isalpha() and position[1].isdigit():
@@ -198,6 +205,11 @@ class Board:
         self.turn = 'RED' if self.turn == 'BLUE' else 'BLUE'
 
     def printState(self):
+        # Print the graveyards of both teams
+        print("Blue Graveyard: " + " ".join(map(str, self.blueGraveyard)))
+        print("Red Graveyard: " + " ".join(map(str, self.redGraveyard)))
+        print() # Newline for readability
+
         # Print the matrix with row numbers
         for i, row in enumerate(self.state):
             # Print row number
@@ -231,7 +243,7 @@ class Board:
 # Example usage:
 if __name__ == "__main__":
     game_board = Board()
-    print("Board State:")
+
     game_board.blueFormation([3, 0, 4, 5, -1, -1, 2, 1, 1, -1])
     game_board.redFormation([5, 1, -1, -1, 0, 3, 1, -1, 4, 2])
     game_board.set_turn('BLUE')
@@ -265,11 +277,8 @@ if __name__ == "__main__":
     game_board.printState()
     game_board.move('C2', 'D2')
     game_board.printState()
-
-    '''
-        d1 d2
-        d5 d4
-        d2 d3
-        d4 d3
-    '''
+    game_board.move('E3', 'D3')
+    game_board.printState()
+    game_board.move('D2', 'D3')
+    game_board.printState()
 
