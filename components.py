@@ -132,21 +132,8 @@ class Board:
 
         if isinstance(self.state[start_row][start_col], Piece) and isinstance(self.state[destination_row][destination_col], Piece):
             if self.state[start_row][start_col].get_team() != self.state[destination_row][destination_col].get_team():
-                # Check the power attributes of the pieces
-                start_power = self.state[start_row][start_col].get_power()
-                destination_power = self.state[destination_row][destination_col].get_power()
-
-                if start_power > destination_power:
-                    # Move the piece in the starting square to the destination square
-                    self.state[destination_row][destination_col] = self.state[start_row][start_col]
-                    self.state[start_row][start_col] = 0  # Clear the starting position
-                elif start_power < destination_power:
-                    # Remove the piece in the starting square from the board
-                    self.remove(start_row, start_col)
-                else:
-                    # Remove both pieces from the board in case of a tie
-                    self.remove(start_row, start_col)
-                    self.remove(destination_row, destination_col)
+                # Check the power attributes and handle the challenge
+                self.handle_challenge(start_row, start_col, destination_row, destination_col)
         else:
              # Perform the move by updating the state matrix
             self.state[destination_row][destination_col] = self.state[start_row][start_col]
@@ -154,6 +141,24 @@ class Board:
 
         # Switch the turn to the other team
         self.switch_turn()
+
+    def handle_challenge(self, start_row, start_col, destination_row, destination_col):
+        # Check the power attributes of the pieces
+        start_power = self.state[start_row][start_col].get_power()
+        destination_power = self.state[destination_row][destination_col].get_power()
+
+        if start_power > destination_power:
+            # Move the piece in the starting square to the destination square
+            self.state[destination_row][destination_col] = self.state[start_row][start_col]
+            self.state[start_row][start_col] = 0  # Clear the starting position
+        elif start_power < destination_power:
+            # Remove the piece in the starting square from the board
+            self.remove(start_row, start_col)
+        else:
+            # Remove both pieces from the board in case of a tie
+            self.remove(start_row, start_col)
+            self.remove(destination_row, destination_col)
+
     def check_move(self, start_row, start_col, destination_row, destination_col):
         # Validate that the indices are within the board dimensions
         if not (0 <= start_row < self.rows) or not (0 <= start_col < self.columns) or \
