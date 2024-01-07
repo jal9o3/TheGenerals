@@ -209,6 +209,22 @@ class Board:
         # Check if 0 is found in redGraveyard
         elif 0 in self.redGraveyard:
             self.terminal = "BLUE WIN"
+        else:
+            # Check if there is a red piece with a power of 0 in the first row
+            for col in range(self.columns):
+                if isinstance(self.state[0][col], Piece) and \
+                        self.state[0][col].get_team() == "RED" and \
+                        self.state[0][col].get_power() == 0:
+                    self.terminal = "RED WIN"
+                    return  # No need to check further if the game is already won
+
+            # Check if there is a blue piece with a power of 0 in the last row
+            for col in range(self.columns):
+                if isinstance(self.state[self.rows - 1][col], Piece) and \
+                        self.state[self.rows - 1][col].get_team() == "BLUE" and \
+                        self.state[self.rows - 1][col].get_power() == 0:
+                    self.terminal = "BLUE WIN"
+                    return  # No need to check further if the game is already won
 
     def isValidPosition(self, position):
         # Checks if the provided position has the correct format "<letter><digit>"
@@ -260,7 +276,7 @@ class Board:
 if __name__ == "__main__":
     game_board = Board()
 
-    game_board.blueFormation([3, 0, 4, 5, -1, -1, 2, 1, 1, -1])
+    game_board.blueFormation([3, 1, 4, 5, -1, -1, 2, 0, 1, -1])
     game_board.redFormation([5, 1, -1, -1, 0, 3, 1, -1, 4, 2])
     game_board.set_turn('BLUE')
     game_board.printState()
@@ -275,38 +291,62 @@ if __name__ == "__main__":
     game_board.printState()
     game_board.move('D4', 'D3')
     game_board.printState()
-    game_board.move('C2', 'D2')
+
+    game_board.move('B2', 'A2')
     game_board.printState()
-    game_board.move('D3', 'D2')
+    game_board.move('B4', 'B5')
     game_board.printState()
-    game_board.move('D1', 'D2')
+    game_board.move('C2', 'C3')
     game_board.printState()
-    game_board.move('D5', 'D4')
+    game_board.move('E3', 'E2')
     game_board.printState()
-    game_board.move('D2', 'D3')
-    game_board.printState()
-    game_board.move('D4', 'D3')
-    game_board.printState()
-    game_board.move('C1', 'C2')
-    game_board.printState()
-    game_board.move('D3', 'D2')
-    game_board.printState()
-    game_board.move('C2', 'D2')
-    game_board.printState()
-    game_board.move('E3', 'D3')
-    game_board.printState()
-    game_board.move('D2', 'D3')
+    game_board.move('C3', 'C4')
     game_board.printState()
     game_board.move('A4', 'A3')
     game_board.printState()
-    game_board.move('A1', 'A2')
+    game_board.move('C4', 'C5')
     game_board.printState()
-    game_board.move('A3', 'A2')
+    game_board.move('D5', 'D4')
     game_board.printState()
-    game_board.move('A2', 'A3')
-    game_board.printState()
-    game_board.move('A5', 'A4')
-    game_board.printState()
+
+
+
+
+
+
+
+    # game_board.move('C2', 'D2')
+    # game_board.printState()
+    # game_board.move('D3', 'D2')
+    # game_board.printState()
+    # game_board.move('D1', 'D2')
+    # game_board.printState()
+    # game_board.move('D5', 'D4')
+    # game_board.printState()
+    # game_board.move('D2', 'D3')
+    # game_board.printState()
+    # game_board.move('D4', 'D3')
+    # game_board.printState()
+    # game_board.move('C1', 'C2')
+    # game_board.printState()
+    # game_board.move('D3', 'D2')
+    # game_board.printState()
+    # game_board.move('C2', 'D2')
+    # game_board.printState()
+    # game_board.move('E3', 'D3')
+    # game_board.printState()
+    # game_board.move('D2', 'D3')
+    # game_board.printState()
+    # game_board.move('A4', 'A3')
+    # game_board.printState()
+    # game_board.move('A1', 'A2')
+    # game_board.printState()
+    # game_board.move('A3', 'A2')
+    # game_board.printState()
+    # game_board.move('A2', 'A3')
+    # game_board.printState()
+    # game_board.move('A5', 'A4')
+    # game_board.printState()
 
     # game_board.move('A3', 'A4') # capture red's flag
     # game_board.printState()
@@ -314,12 +354,13 @@ if __name__ == "__main__":
     # game_board.move('B4', 'C4') # attempt to move after end of game
     # game_board.printState()
 
-    game_board.move('B2', 'C2')
-    game_board.printState()
-    game_board.move('B4', 'B3')
-    game_board.printState()
-    game_board.move('B1', 'B2')
-    game_board.printState()
+    # game_board.move('B2', 'C2')
+    # game_board.printState()
+    # game_board.move('B4', 'B3')
+    # game_board.printState()
+    # game_board.move('B1', 'B2')
+    # game_board.printState()
+
     # game_board.move('B3', 'B2') # capture blue's flag
     # game_board.printState()
 
