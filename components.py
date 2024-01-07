@@ -307,8 +307,21 @@ if __name__ == "__main__":
     game_board.printState()
     game_board.move('A5', 'A4')
     game_board.printState()
-    game_board.move('A3', 'A4')
-    game_board.printState()
 
-    game_board.move('B4', 'C4')
+    # game_board.move('A3', 'A4') # capture red's flag
+    # game_board.printState()
+
+    # game_board.move('B4', 'C4') # attempt to move after end of game
+    # game_board.printState()
+
+    game_board.move('B2', 'C2')
     game_board.printState()
+    game_board.move('B4', 'B3')
+    game_board.printState()
+    game_board.move('B1', 'B2')
+    game_board.printState()
+    # game_board.move('B3', 'B2') # capture blue's flag
+    # game_board.printState()
+
+    # game_board.move('C2', 'B2') # attempt to move after end of game
+    # game_board.printState()
