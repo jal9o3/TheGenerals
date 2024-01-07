@@ -57,6 +57,8 @@ class Board:
         # Initialize the graveyards of both teams
         self.blueGraveyard = []
         self.redGraveyard = []
+        # Initialize the terminal attribute, which will store the result of the game
+        self.terminal = "ONGOING"
 
     def createState(self):
         # Initialize the state matrix with zeros for each cell (row x column)
@@ -120,6 +122,10 @@ class Board:
         if not self.isValidPosition(start) or not self.isValidPosition(destination):
             raise ValueError("Invalid position format. Use the format <letter><digit>.")
 
+        # Check if game has ended
+        if self.terminal != "ONGOING":
+            return
+
         # Convert the letter part of the position to column index
         start_col = ord(start[0]) - ord('A')
         destination_col = ord(destination[0]) - ord('A')
@@ -138,6 +144,8 @@ class Board:
              # Perform the move by updating the state matrix
             self.state[destination_row][destination_col] = self.state[start_row][start_col]
             self.state[start_row][start_col] = 0  # Clear the starting position
+
+        self.set_terminal()
 
         # Switch the turn to the other team
         self.switch_turn()
@@ -193,6 +201,14 @@ class Board:
         # Check if the move is one square forward, backward, left, or right
         if abs(destination_row - start_row) + abs(destination_col - start_col) != 1:
             raise ValueError("Invalid move. Only one square forward, backward, left, or right moves are allowed.")
+
+    def set_terminal(self):
+        # Check if 0 is found in blueGraveyard
+        if 0 in self.blueGraveyard:
+            self.terminal = "RED WIN"
+        # Check if 0 is found in redGraveyard
+        elif 0 in self.redGraveyard:
+            self.terminal = "BLUE WIN"
 
     def isValidPosition(self, position):
         # Checks if the provided position has the correct format "<letter><digit>"
@@ -281,4 +297,18 @@ if __name__ == "__main__":
     game_board.printState()
     game_board.move('D2', 'D3')
     game_board.printState()
+    game_board.move('A4', 'A3')
+    game_board.printState()
+    game_board.move('A1', 'A2')
+    game_board.printState()
+    game_board.move('A3', 'A2')
+    game_board.printState()
+    game_board.move('A2', 'A3')
+    game_board.printState()
+    game_board.move('A5', 'A4')
+    game_board.printState()
+    game_board.move('A3', 'A4')
+    game_board.printState()
 
+    game_board.move('B4', 'C4')
+    game_board.printState()
