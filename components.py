@@ -326,7 +326,7 @@ if __name__ == "__main__":
     game_board = Board()
 
     game_board.blueFormation([3, 1, 4, 5, -1, -1, 2, 0, 1, -1])
-    game_board.redFormation([5, 1, -1, -1, 0, 3, 1, -1, 4, 2])
+    game_board.redFormation([5, 1, -1, -1, 1, 3, 0, -1, 4, 2])
     game_board.set_turn('BLUE')
     game_board.printState()
     
@@ -340,7 +340,6 @@ if __name__ == "__main__":
     game_board.printState()
     game_board.move('D4', 'D3')
     game_board.printState()
-
     game_board.move('B2', 'A2')
     game_board.printState()
     game_board.move('B4', 'B5')
@@ -353,70 +352,23 @@ if __name__ == "__main__":
     game_board.printState()
     game_board.move('A4', 'A3')
     game_board.printState()
-    game_board.move('C4', 'C5')
+    game_board.move('D1', 'D2')
     game_board.printState()
-    # game_board.move('D5', 'D4') # attempt to move after end of game
-    # game_board.printState()
-
+    game_board.move('D5', 'D4')
+    game_board.printState()
+    game_board.move('D2', 'C2')
+    game_board.printState()
     game_board.move('D3', 'D2')
     game_board.printState()
-    game_board.move('B1', 'B2')
+    game_board.move('C2', 'C3')
+    game_board.printState()
+    game_board.move('D2', 'D1')
+    game_board.printState()
+    game_board.move('C1', 'C2')
+    game_board.printState()
+    game_board.move('E2', 'E1')
     game_board.printState()
 
 
 
 
-
-
-
-    # game_board.move('C2', 'D2')
-    # game_board.printState()
-    # game_board.move('D3', 'D2')
-    # game_board.printState()
-    # game_board.move('D1', 'D2')
-    # game_board.printState()
-    # game_board.move('D5', 'D4')
-    # game_board.printState()
-    # game_board.move('D2', 'D3')
-    # game_board.printState()
-    # game_board.move('D4', 'D3')
-    # game_board.printState()
-    # game_board.move('C1', 'C2')
-    # game_board.printState()
-    # game_board.move('D3', 'D2')
-    # game_board.printState()
-    # game_board.move('C2', 'D2')
-    # game_board.printState()
-    # game_board.move('E3', 'D3')
-    # game_board.printState()
-    # game_board.move('D2', 'D3')
-    # game_board.printState()
-    # game_board.move('A4', 'A3')
-    # game_board.printState()
-    # game_board.move('A1', 'A2')
-    # game_board.printState()
-    # game_board.move('A3', 'A2')
-    # game_board.printState()
-    # game_board.move('A2', 'A3')
-    # game_board.printState()
-    # game_board.move('A5', 'A4')
-    # game_board.printState()
-
-    # game_board.move('A3', 'A4') # capture red's flag
-    # game_board.printState()
-
-    # game_board.move('B4', 'C4') # attempt to move after end of game
-    # game_board.printState()
-
-    # game_board.move('B2', 'C2')
-    # game_board.printState()
-    # game_board.move('B4', 'B3')
-    # game_board.printState()
-    # game_board.move('B1', 'B2')
-    # game_board.printState()
-
-    # game_board.move('B3', 'B2') # capture blue's flag
-    # game_board.printState()
-
-    # game_board.move('C2', 'B2') # attempt to move after end of game
-    # game_board.printState()
