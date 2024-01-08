@@ -59,6 +59,9 @@ class Board:
         self.redGraveyard = []
         # Initialize the terminal attribute, which will store the result of the game
         self.terminal = "ONGOING"
+        # Stores whether a flag has crossed 'bravely'
+        self.braveBlue = False
+        self.braveRed = False
 
     def createState(self):
         # Initialize the state matrix with zeros for each cell (row x column)
@@ -209,23 +212,69 @@ class Board:
         # Check if 0 is found in redGraveyard
         elif 0 in self.redGraveyard:
             self.terminal = "BLUE WIN"
-        else:
+        else:           
             # Check if there is a red piece with a power of 0 in the first row
             for col in range(self.columns):
                 if isinstance(self.state[0][col], Piece) and \
                         self.state[0][col].get_team() == "RED" and \
                         self.state[0][col].get_power() == 0:
+                    
+                    # Check if there is a blue piece to the left
+                    if col > 0 and isinstance(self.state[0][col - 1], Piece):
+                        # Wait for one turn
+                        if self.state[0][col - 1].get_team() == "BLUE" and not self.braveRed:
+                            self.braveRed = True
+                            return
+                        # When one turn has elapsed
+                        elif self.state[0][col - 1].get_team() == "BLUE" and self.braveRed:
+                            self.terminal = "RED WIN"
+                            return
+
+                    # Check if there is a blue piece to the right
+                    if col < self.columns - 1 and isinstance(self.state[0][col + 1], Piece):
+                        # Wait for one turn
+                        if self.state[0][col + 1].get_team() == "BLUE" and not self.braveRed:
+                            self.braveRed = True
+                            return
+                        # When one turn has elapsed
+                        elif self.state[0][col + 1].get_team() == "BLUE" and self.braveRed:
+                            self.terminal = "RED WIN"
+                            return
+
                     self.terminal = "RED WIN"
                     return  # No need to check further if the game is already won
+
 
             # Check if there is a blue piece with a power of 0 in the last row
             for col in range(self.columns):
                 if isinstance(self.state[self.rows - 1][col], Piece) and \
                         self.state[self.rows - 1][col].get_team() == "BLUE" and \
                         self.state[self.rows - 1][col].get_power() == 0:
+                    # Check if there is a red piece to the left
+                    if col > 0 and isinstance(self.state[self.rows - 1][col - 1], Piece):
+                        # Wait for one turn
+                        if self.state[self.rows - 1][col - 1].get_team() == "RED" and not self.braveBlue:
+                            self.braveBlue = True
+                            return
+                        # When one turn has elapsed
+                        elif self.state[self.rows - 1][col - 1].get_team() == "RED" and self.braveBlue:
+                            self.terminal = "BLUE WIN"
+                            return
+
+                    # Check if there is a red piece to the right
+                    if col < self.columns - 1 and isinstance(self.state[self.rows - 1][col + 1], Piece):
+                        # Wait for one turn
+                        if self.state[self.rows - 1][col + 1].get_team() == "RED" and not self.braveBlue:
+                            self.braveBlue = True
+                            return
+                        # When one turn has elapsed
+                        elif self.state[self.rows - 1][col + 1].get_team() == "RED" and self.braveBlue:
+                            self.terminal = "BLUE WIN"
+                            return
+
                     self.terminal = "BLUE WIN"
                     return  # No need to check further if the game is already won
-
+                    
     def isValidPosition(self, position):
         # Checks if the provided position has the correct format "<letter><digit>"
         if len(position) == 2 and position[0].isalpha() and position[1].isdigit():
@@ -306,7 +355,12 @@ if __name__ == "__main__":
     game_board.printState()
     game_board.move('C4', 'C5')
     game_board.printState()
-    game_board.move('D5', 'D4')
+    # game_board.move('D5', 'D4') # attempt to move after end of game
+    # game_board.printState()
+
+    game_board.move('D3', 'D2')
+    game_board.printState()
+    game_board.move('B1', 'B2')
     game_board.printState()
 
 
